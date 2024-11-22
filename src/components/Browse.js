@@ -1,8 +1,15 @@
 import React from 'react'
+import Header from './core/Header'
 
 const Browse = () => {
   return (
-    <div>Browse</div>
+    <>
+     <Header/>
+     <div>Browse</div>
+    </>
+     
+   
+    
   )
 }
 
