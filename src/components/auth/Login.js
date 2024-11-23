@@ -15,16 +15,15 @@ const Login = () => {
     
     const isValidate = validateLogin(email.current.value , password.current.value);
     setError(isValidate);
-    console.log('isValidate', isValidate)
 
     if(!error){
 
       if(!isSignInForm){
         //Signup User
         try {
-          const response = await createUserWithEmailAndPassword(auth, email.current.value , password.current.value);
+           await createUserWithEmailAndPassword(auth, email.current.value , password.current.value);
           //Signup success
-          if(response.user) navigate('/browse');
+          // if(response.user) navigate('/browse');
           
         } catch (error) {
           // const errorCode = error.code;
@@ -34,11 +33,10 @@ const Login = () => {
       }else{
         //sign in user
         try {
-          const response = await signInWithEmailAndPassword(auth,  email.current.value , password.current.value);
+          await signInWithEmailAndPassword(auth,  email.current.value , password.current.value);
           // Signed in success 
-          if(response.user) navigate('/browse');
+          // if(response.user) navigate('/browse');
         } catch (error) {
-          console.log('error', error);
           const errorMessage = error.message;
           setError({field:'global' , msg: error.code === 400 ? 'Invalid email or password ' :errorMessage})
         }

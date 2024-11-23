@@ -3,14 +3,18 @@ import { getAuth, signOut } from "firebase/auth";
 import { auth } from '../../utils/firebase';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+
+
+import { onAuthStateChanged } from "firebase/auth";
+import { useDispatch } from 'react-redux';
+import { addUserData, clearUserData } from '../../utils/Slices/userSlice';
+
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isLoggedIn, setIsLoggedIn] = useState();
-  const userData = useSelector((store)=>store.user);
-  console.log(userData)
   
   const handleSignout = () => {
-    console.log('signout clicked');
     signOut(auth).then(() => {
       navigate("/")
       // Sign-out successful.
@@ -19,17 +23,39 @@ const Header = () => {
     });
   }
 
-  useEffect(() =>{
-    if(userData){
-      setIsLoggedIn(true);
-      navigate("/browse")
-    }else{
-      setIsLoggedIn(false);
-      navigate("/")
-    }
-  },[
-    userData
-  ])
+  // useEffect(() =>{
+  //   if(userData){
+  //     setIsLoggedIn(true);
+  //     navigate("/browse")
+  //   }else{
+  //     setIsLoggedIn(false);
+  //     navigate("/")
+  //   }
+  // },[
+  //   userData
+  // ])
+
+  const getAuthStatus=()=>{
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(addUserData({accessToken: user.accessToken , email: user.email, uId: user.uid }));
+        setIsLoggedIn(true);
+        navigate("/browse")
+      } else {
+        dispatch(clearUserData());
+        setIsLoggedIn(false);
+        navigate("/")
+      }
+    });
+
+ 
+  
+  }
+
+  useEffect(()=>{
+    getAuthStatus();
+  },[])
   return (
     <>  
     <div className='absolute w-full  bg-gradient-to-b from-black z-40 flex justify-between'>
