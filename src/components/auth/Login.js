@@ -4,6 +4,7 @@ import { validateLogin } from "../../utils/validator";
 import { createUserWithEmailAndPassword , signInWithEmailAndPassword  } from "firebase/auth";
 import {auth} from "../../utils/firebase";
 import {  useNavigate} from "react-router-dom";
+import { BODY_BACKGROUND_IMG } from "../../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -55,7 +56,7 @@ const Login = () => {
         <div className="relative flex h-screen items-center justify-center ">
           <img
             className="absolute"
-            src="https://assets.nflxext.com/ffe/siteui/vlv3/03ad76d1-e184-4d99-ae7d-708672fa1ac2/web/IN-en-20241111-TRIFECTA-perspective_149877ab-fcbd-4e4f-a885-8d6174a1ee81_large.jpg"
+            src={BODY_BACKGROUND_IMG}
             alt="BACKGROUND"
           />
 
